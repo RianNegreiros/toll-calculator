@@ -54,5 +54,5 @@ func generateOBUIDS(n int) []int {
 }
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 }
