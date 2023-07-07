@@ -14,7 +14,7 @@ type InvoiceAggregator struct {
 	store Storer
 }
 
-func newInvoiceAggregator(store Storer) *InvoiceAggregator {
+func newInvoiceAggregator(store Storer) Aggregator {
 	return &InvoiceAggregator{store}
 }
 

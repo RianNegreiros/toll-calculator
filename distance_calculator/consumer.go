@@ -8,6 +8,7 @@ import (
 	"github.com/RianNegreiros/toll-calculator/aggregator/client"
 	"github.com/RianNegreiros/toll-calculator/types"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -72,7 +73,7 @@ func (c *KafkaConsumer) readMessageLoop() {
 			OBUID: data.OBUID,
 		}
 		if err := c.aggClient.Aggregate(context.Background(), req); err != nil {
-			logrus.Errorf("aggregation error: %s", err)
+			logrus.Errorf("aggregator error: %s", err)
 			continue
 		}
 	}
