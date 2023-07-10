@@ -70,7 +70,7 @@ func (c *KafkaConsumer) readMessageLoop() {
 		req := &types.AggregateRequest{
 			Value: distance,
 			Unix:  time.Now().UnixNano(),
-			OBUID: data.OBUID,
+			ObuID: int32(data.OBUID),
 		}
 		if err := c.aggClient.Aggregate(context.Background(), req); err != nil {
 			logrus.Errorf("aggregator error: %s", err)
