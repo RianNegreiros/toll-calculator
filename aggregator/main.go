@@ -19,7 +19,7 @@ func main() {
 
 	var (
 		store = NewMemoryStore()
-		svc   = newInvoiceAggregator(store)
+		svc   = NewInvoiceAggregator(store)
 	)
 	svc = NewLogMiddleware(svc)
 	go makeGRPCTransport(*grpcListenAddr)
