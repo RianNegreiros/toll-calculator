@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/RianNegreiros/toll-calculator/types"
+	"github.com/sirupsen/logrus"
 )
 
 const basePrice = 3.15
@@ -22,25 +21,30 @@ type InvoiceAggregator struct {
 	store Storer
 }
 
-func newInvoiceAggregator(store Storer) Aggregator {
-	return &InvoiceAggregator{store}
+func NewInvoiceAggregator(store Storer) Aggregator {
+	return &InvoiceAggregator{
+		store: store,
+	}
 }
 
 func (i *InvoiceAggregator) AggregateDistance(distance types.Distance) error {
+	logrus.WithFields(logrus.Fields{
+		"obuid":    distance.OBUID,
+		"distance": distance.Value,
+		"unix":     distance.Unix,
+	}).Info("aggregating distance")
 	return i.store.Insert(distance)
 }
 
 func (i *InvoiceAggregator) CalculateInvoice(obuID int) (*types.Invoice, error) {
 	dist, err := i.store.Get(obuID)
 	if err != nil {
-		return nil, fmt.Errorf("error getting distance for obu %d: %w", obuID, err)
+		return nil, err
 	}
-
 	inv := &types.Invoice{
 		OBUID:         obuID,
 		TotalDistance: dist,
-		TotalAmount:   basePrice + dist,
+		TotalAmount:   basePrice * dist,
 	}
-
 	return inv, nil
 }
