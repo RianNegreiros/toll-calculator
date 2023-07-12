@@ -9,11 +9,15 @@ import (
 	"os"
 
 	"github.com/RianNegreiros/toll-calculator/types"
+	"github.com/joho/godotenv"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
+	}
 	var (
 		store          = makeStore()
 		svc            = NewInvoiceAggregator(store)
